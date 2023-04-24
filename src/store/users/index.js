@@ -30,9 +30,16 @@ export default {
   },
 
   actions: {
+
     auth({state}, params) {
       state.isLogged
       return AuthService.auth(params)
+    },
+
+    forgetPassword({state}, email) {
+      state.isLogged
+      return AuthService.forgetPassword(email)
     }
+
   },
 }
