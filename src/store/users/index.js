@@ -1,3 +1,4 @@
+import AuthService from "@/services/AuthService"
 
 export default {
   state: {
@@ -29,6 +30,9 @@ export default {
   },
 
   actions: {
-
+    auth({state}, params) {
+      state.isLogged
+      return AuthService.auth(params)
+    }
   },
 }
