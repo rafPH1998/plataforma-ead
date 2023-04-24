@@ -42,12 +42,15 @@
                             <span class="description">
                                 Acesse nossa plataforma e desfrute de cursos completos para sua especialização.
                             </span>
-                            <form action="/dist/index.html" method="">
+                            <form action="#" method="POST">
                                 <div class="groupForm">
                                     <i class="far fa-envelope"></i>
-                                    <input type="email" name="email" placeholder="Email" required>
+                                    <input type="email" name="email" placeholder="Email" required v-model="email">
                                 </div>
-                                <button class="btn primary" type="submit">Login</button>
+                                <button class="btn primary" type="submit" @click.prevent="forgetPassword()">
+                                    <span v-if="loading">Recuperando...</span>
+                                    <span v-else>Recuperar</span>
+                                </button>
                             </form>
                             <span>
                                 <p class="fontSmall">
@@ -66,7 +69,32 @@
 </template>
 
 <script>
+
+import { useStore } from 'vuex';
+import { ref } from 'vue';
+
 export default {
-    name: 'ForgetPasswordView'
+    name: 'ForgetPasswordView',
+    setup() {
+
+    const store = useStore()
+    const email = ref('')
+    const loading = ref(false);
+
+    const forgetPassword = () => {
+        loading.value = true;
+
+        store.dispatch('forgetPassword', {email: email.value})
+            .then(()       => alert('DEU CERTO'))
+            .catch((error) => console.log(error))
+            .finally(()    => loading.value = false)
+    }
+
+    return {
+        forgetPassword,
+        email,
+        loading
+    }
+}
 }
 </script>

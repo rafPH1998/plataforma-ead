@@ -1,6 +1,5 @@
 <template>
     <div class="">
-        <router-link :to="{name: 'auth'}">voltar</router-link>
         <li>
             <span :class="['card', 'bg-' + bgName]">
                 <span class="icon">
