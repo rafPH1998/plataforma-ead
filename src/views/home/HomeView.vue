@@ -2,8 +2,10 @@
   <div class="content">
       <ul class="listCourses">
         <card-course 
-          :title="'Fake'"
-          :image="''"
+          style="margin-top: 15px;"
+          v-for="courses in allCourses.data" :key="courses.id"
+          :title="courses.name"
+          :image="courses.image"
           :bgName="'laravel'">
         </card-course>
       </ul>
@@ -14,11 +16,26 @@
 <script>
 
 import CardCourse from './components/CardCourse.vue'
+import { onMounted, computed} from 'vue'
+import { useStore } from 'vuex';
 
 export default {
   name: 'HomeView',
   components: {
     CardCourse
+  },
+  setup() {
+
+    const store = useStore()
+    const allCourses = computed(() => store.state.courses.courses)
+
+    onMounted(() => {
+      store.dispatch('getCourses')
+    })
+
+    return {
+      allCourses
+    }
   }
 }
 </script>
