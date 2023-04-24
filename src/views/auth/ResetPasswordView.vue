@@ -78,6 +78,7 @@
 import router from '@/router';
 import AuthService from '@/services/AuthService';
 import { ref } from 'vue';
+import { notify } from "@kyvg/vue3-notification";
 
 export default {
     name: 'ResetPasswordView',
@@ -101,8 +102,22 @@ export default {
                 password : password.value,
                 token    : props.token
             })
-            .then(() => router.push({name: 'auth'}))
-            .catch(() => alert('ERRO PORRA'))
+            .then(() => {
+                notify({
+                    title: "Boa!",
+                    text: "Senha alterada com sucesso!",
+                    type: "success"
+                });
+
+                router.push({name: 'auth'})
+            })
+            .catch(() => {
+                notify({
+                    title: "Falha ao recuperar senha!",
+                    text: "Senha e/ou e-mail inválidos!",
+                    type: "error"
+                });
+            })
             .finally(() => loading.value = false)
         }
 

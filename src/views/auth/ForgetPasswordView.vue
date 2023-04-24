@@ -72,6 +72,7 @@
 
 import { useStore } from 'vuex';
 import { ref } from 'vue';
+import { notify } from "@kyvg/vue3-notification";
 
 export default {
     name: 'ForgetPasswordView',
@@ -85,9 +86,21 @@ export default {
         loading.value = true;
 
         store.dispatch('forgetPassword', {email: email.value})
-            .then(()       => alert('DEU CERTO'))
-            .catch((error) => console.log(error))
-            .finally(()    => loading.value = false)
+            .then(()       => {
+                notify({
+                    title: "Sucesso!",
+                    text: "Confira seu e-mail para alterar sua senha.",
+                    type: "success"
+                });
+            })
+            .catch(() => {
+                notify({
+                    title : "Atenção!",
+                    text  : "O e-mail inserido está incorreto.",
+                    type  : "warning"
+                });
+            })
+            .finally(() => loading.value = false)
     }
 
     return {

@@ -88,6 +88,7 @@
 import { useStore } from 'vuex';
 import { ref } from 'vue';
 import router from '@/router';
+import { notify } from "@kyvg/vue3-notification";
 
 export default {
     name: 'AuthView',
@@ -107,7 +108,13 @@ export default {
                 device_name: 'teste'
             })
             .then(() => router.push({name: 'campus.home'}))
-            .catch((error) => console.log(error))
+            .catch(() => {
+                notify({
+                    title: "Falha ao autenticar!",
+                    text: "Senha e/ou e-mail inválidos!",
+                    type: "error"
+                });
+            })
             .finally(() => {
                 loading.value = false
             })
