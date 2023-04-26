@@ -2,12 +2,23 @@ import CourseService from "@/services/CourseService"
 
 export default {
   state: {
-    courses: []
+    courses: [],
+    courseSelected: {
+      id: '',
+      name: '',
+      modules: []
+    }
   },
   mutations: {
+    
     SET_COURSES(state, courses) {
-        state.courses = courses
+      state.courses = courses
+    },
+
+    SET_COURSE_SELECTED (state, course) {
+      state.courseSelected = course
     }
+
   },
   actions: {
     async getCourses({ commit }) {

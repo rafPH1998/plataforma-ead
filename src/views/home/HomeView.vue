@@ -3,9 +3,9 @@
       <ul class="listCourses">
         <card-course 
           style="margin-top: 15px;"
-          v-for="courses in allCourses.data" :key="courses.id"
-          :title="courses.name"
-          :image="courses.image"
+          v-for="courses in allCourses.data" 
+          :key="courses.id"
+          :course="courses"
           :bgName="'laravel'">
         </card-course>
       </ul>

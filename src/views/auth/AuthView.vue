@@ -84,7 +84,6 @@
 
 <script>
 
-
 import { useStore } from 'vuex';
 import { ref } from 'vue';
 import router from '@/router';
