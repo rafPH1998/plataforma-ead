@@ -18,14 +18,23 @@
                         <span class="text">{{modules.name}}</span>
                         <span class="icon fas fa-sort-down"></span>
                     </div>
+
                     <ul class="classes" 
                         v-if="modules.lessons.length > 0" 
                         v-show="showModules == modules.id">
-                        <li class="ative" v-for="lessons in modules.lessons" :key="lessons.id">
+                        <li
+                            v-for="lessons in modules.lessons" 
+                            :class="[
+                                lessons.id == showLesson.id ? 'active' : ''
+                            ]"
+                            :key="lessons.id" 
+                            @click.prevent="addLeessonInPlayer(lessons)"
+                            @click.stop>
                             <span v-if="lessons.views.length > 0" class="check active fas fa-check"></span>
                             <span class="nameLesson">{{ lessons.name }}</span>
                         </li>
                     </ul>
+
                     <span v-else style="color: white; font-size: 12px; padding: 10px;">
                         Nenhuma aula para este módulo.
                     </span>
@@ -59,13 +68,20 @@ export default {
                 showModules.value = moduleId;
             }
         }
+        
+        const addLeessonInPlayer = (lesson) => {
+            store.commit('SET_LESSON_PLAYER', lesson)
+        }
 
+        const showLesson = computed(() => store.state.courses.lessonPlayer)
         const getModules = computed(() => store.state.courses.courseSelected.modules)
 
         return {
             getModules,
+            showLesson,
             showModules,
-            toggleModules
+            toggleModules,
+            addLeessonInPlayer
         }
     }
 }
