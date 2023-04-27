@@ -7,14 +7,22 @@
             </div>
             
             <template v-if="getModules.length > 0">
-                <div class="modules" v-for="modules in getModules" :key="modules.id">
+                <div  
+                    v-for="modules in getModules" 
+                    :key="modules.id"
+                    @click.prevent="toggleModules(modules.id)"
+                    :class="[
+                        'modules active',
+                    ]">
                     <div class="name">
                         <span class="text">{{modules.name}}</span>
                         <span class="icon fas fa-sort-down"></span>
                     </div>
-                    <ul class="classes" v-if="modules.lessons.length > 0">
-                        <li class="active" v-for="lessons in modules.lessons" :key="lessons.id">
-                            <span class="check active fas fa-check"></span>
+                    <ul class="classes" 
+                        v-if="modules.lessons.length > 0" 
+                        v-show="showModules == modules.id">
+                        <li class="ative" v-for="lessons in modules.lessons" :key="lessons.id">
+                            <span v-if="lessons.views.length > 0" class="check active fas fa-check"></span>
                             <span class="nameLesson">{{ lessons.name }}</span>
                         </li>
                     </ul>
@@ -34,6 +42,7 @@
 
 import { useStore } from 'vuex';
 import { computed } from 'vue'
+import { ref } from 'vue'
 
 export default {
     name: 'ModulesList',
@@ -41,10 +50,22 @@ export default {
     setup() {
 
         const store = useStore();
+        const showModules = ref('0');
+
+        const toggleModules = (moduleId) => {
+            if (showModules.value == moduleId) {
+                showModules.value = '0';
+            } else {
+                showModules.value = moduleId;
+            }
+        }
+
         const getModules = computed(() => store.state.courses.courseSelected.modules)
 
         return {
-            getModules
+            getModules,
+            showModules,
+            toggleModules
         }
     }
 }
