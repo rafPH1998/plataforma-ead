@@ -10,7 +10,7 @@
                 <div  
                     v-for="modules in getModules" 
                     :key="modules.id"
-                    @click.prevent="toggleModules(modules.id)"
+                    @click.prevent="toggleModules(modules)"
                     :class="[
                         'modules active',
                     ]">
@@ -61,11 +61,12 @@ export default {
         const store = useStore();
         const showModules = ref('0');
 
-        const toggleModules = (moduleId) => {
-            if (showModules.value == moduleId) {
+        const toggleModules = (module) => {
+            if (showModules.value == module.id) {
                 showModules.value = '0';
             } else {
-                showModules.value = moduleId;
+                showModules.value = module.id;
+                store.commit('REMOVE_LESSON_PLAYER', module.lesson)
             }
         }
         

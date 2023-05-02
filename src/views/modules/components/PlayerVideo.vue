@@ -10,10 +10,6 @@
             </router-link>
         </div>
         <iframe 
-            v-if="getLesson.video"
-            width="100%" height="auto" 
-            :src="getLesson.video" 
-            :title="getLesson.name" 
             frameborder="0" 
             allow="accelerometer; autoplay; 
             clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -21,7 +17,7 @@
         </iframe>
     </div>
     <div class="description-lesson" v-if="getLesson.video">
-        {{ lesson.description }}
+        {{ getLesson.description }}
     </div>
 </template>
 
