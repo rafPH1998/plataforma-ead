@@ -1,87 +1,74 @@
 <template>
-    <div class="content">
-        <div class="card">
+    <div class="content" v-if="supports.data.length !== 0">
+        <div class="card" v-for="support in supports.data" :key="support.id">
             <div class="commentContent main">
                 <span class="avatar">
-                    <img src="images/avatars/user01.svg" alt="">
+                    <img :src="[
+                        support.user.image ?
+                        support.user.image :
+                        require('@/assets/images/avatars/user01.svg')
+                    ]" alt="">
                 </span>
                 <span class="comment">
                     <div class="balloon">
                         <span class="fas fa-sort-down"></span>
-                        <span class="owner">Fernando - 07/10/2021</span>
+                        <span class="owner">Eu - {{support.dt_updated}}</span>
                         <span class="text">
-                            Donec ligula libero, sollicitudin vel libero vel, mollis porttitor turpis. Cras mattis turpis massa, sit amet fringilla diam auctor ac. Integer sit amet rutrum risus. In eleifend urna sapien, faucibus pharetra justo luctus quis. Vivamus eleifend fringilla massa
+                            {{support.description}}
                         </span>
                     </div>
                 </span>
                 <button class="btn primary">Ver respostas</button>
             </div>
-        </div>
-        <div class="card">
-            <div class="commentContent main">
-                <span class="avatar">
-                    <img src="images/avatars/user01.svg" alt="">
-                </span>
-                <div class="comment">
-                    <div class="balloon">
-                        <span class="fas fa-sort-down"></span>
-                        <span class="owner">Fernando - 07/10/2021</span>
-                        <span class="text">
-                            In eleifend urna sapien, faucibus pharetra justo luctus quis. Vivamus eleifend fringilla massa
-                        </span>
-                    </div>
-                </div>
-                <button class="btn primary">Ocultar respostas</button>
-            </div>
             <div class="answersContent">
-                <div class="commentContent rightContent">
-                    <div class="comment">
-                        <div class="balloon">
-                            <span class="fas fa-sort-down"></span>
-                            <span class="owner">Carlos Ferreira - 07/10/2021</span>
-                            <span class="text">
-                                In eleifend urna sapien, faucibus pharetra justo luctus quis. Vivamus eleifend fringilla massa
-                            </span>
-                        </div>
-                    </div>
-                    <span class="avatar">
-                        <img src="images/avatars/user03.svg" alt="">
-                    </span>
-                </div>
-                <div class="commentContent">
-                    <span class="avatar">
-                        <img src="images/avatars/user01.svg" alt="">
+                <div 
+                    v-for="reply in support.replies" 
+                    :key="reply.id"
+                    :class="[
+                        'commentContent',
+                        support.user.id !== reply.user.id ? 'rightContent' : ''
+
+                    ]">   
+                    <span class="avatar" v-if="support.user.id === reply.user.id">
+                        <img
+                            :src="[
+                            reply.user.image ?
+                            reply.user.image :
+                            require('@/assets/images/avatars/user01.svg')
+                        ]" alt="">
                     </span>
                     <div class="comment">
                         <div class="balloon">
                             <span class="fas fa-sort-down"></span>
-                            <span class="owner">Fernando - 07/10/2021</span>
+                            <span class="owner">
+                                {{ support.user.id === reply.user.id ? 'Eu' : reply.user.name }} - 07/10/2021
+                            </span>
                             <span class="text">
-                                In eleifend urna sapien, faucibus pharetra justo luctus quis. Vivamus eleifend fringilla massa
+                                {{reply.description}}
                             </span>
                         </div>
                     </div>
+                    <span class="avatar" v-if="support.user.id !== reply.user.id">
+                        <img
+                            :src="[
+                            reply.user.image ?
+                            reply.user.image :
+                            require('@/assets/images/avatars/user02.svg')
+                        ]" alt="">
+                    </span>
                 </div>
                 <span class="answer">
                     <button class="btn primary">Responder</button>
                 </span>
             </div>
         </div>
-        <div class="card">
-            <div class="commentContent main">
-                <span class="avatar">
-                    <img src="images/avatars/user02.svg" alt="">
-                </span>
-                <span class="comment">
-                    <div class="balloon">
-                        <span class="fas fa-sort-down"></span>
-                        <span class="owner">João - 06/10/2021</span>
-                        <span class="text">
-                            Integer scelerisque placerat molestie. Vivamus dignissim bibendum sapien, non suscipit arcu lobortis nec. Donec eros est, mollis quis nibh quis, pellentesque suscipit libero.
-                        </span>
-                    </div>
-                </span>
-                <button class="btn primary">Ver respostas</button>
+    </div>
+    <div v-else>
+        <div class="content">
+            <div class="card">
+                <div class="commentContent main">
+                    <p style="color: white; font-size: 12px">Nenhum suporte para essa aula!</p>
+                </div>
             </div>
         </div>
     </div>
@@ -89,8 +76,22 @@
   
   
 <script>
+
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+
 export default {
     name: 'SupportsGlobal',
+
+    setup() {
+        const store = useStore();
+
+        const supports = computed(() => store.state.supports.supports)
+
+        return {
+            supports
+        }
+    }
 }
 </script>
   

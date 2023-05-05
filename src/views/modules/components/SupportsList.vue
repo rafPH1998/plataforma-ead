@@ -1,7 +1,10 @@
 <template>
     <div class="comments" v-show="lessons.name">
         <div class="header">
-            <span class="title">Dúvidas (total: {{ supports.length }})</span>
+            <span class="title">
+                Dúvidas (total: {{ supports.length }})
+                {{loading ? 'Carregando...' : '' }}
+            </span>
             <button class="btn primary">
                 <i class="fas fa-plus"></i>
                 Enviar nova dúvida
