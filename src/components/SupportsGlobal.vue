@@ -18,9 +18,12 @@
                         </span>
                     </div>
                 </span>
-                <button class="btn primary">Ver respostas</button>
+                <button class="btn primary">
+                    <span v-if="showSupports !== support.id" @click.prevent="openToggleSupports(support.id)">Ver respostas ({{ support.replies.length }})</span>
+                    <span v-else @click.prevent="closeToggleSupports()">Ocultar respostas</span>
+                </button>
             </div>
-            <div class="answersContent">
+            <div class="answersContent" v-show="showSupports == support.id">
                 <div 
                     v-for="reply in support.replies" 
                     :key="reply.id"
@@ -78,18 +81,30 @@
 <script>
 
 import { useStore } from 'vuex';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 export default {
     name: 'SupportsGlobal',
 
     setup() {
         const store = useStore();
+        const showSupports = ref('0')
 
         const supports = computed(() => store.state.supports.supports)
 
+        const openToggleSupports = (idSupport) => {
+            showSupports.value = idSupport
+        }
+
+        const closeToggleSupports = () => {
+            showSupports.value = 0
+        }
+
         return {
-            supports
+            supports,
+            showSupports,
+            openToggleSupports,
+            closeToggleSupports
         }
     }
 }
