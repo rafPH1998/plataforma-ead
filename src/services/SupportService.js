@@ -18,6 +18,18 @@ export default class SupportService extends BaseService
         }
     }
 
-    
+    static async storeSupport(params)
+    {
+        try {
+            const response = await this.request({ auth: true })
+                                       .post("/supports", params)
+            return response;
+            
+        } catch (error) {
+            console.log(error);
+            throw new Error("Não foi possível buscar os cursos.");
+        }
+    }
+
 
 }

@@ -19,7 +19,7 @@ export default {
     },
 
     ADD_NEW_SUPPORTS (state, support) {
-        state.supports.data.push(support)
+        state.supports.data.unshift(support)
     },
 
     REMOVE_SUPPORTS (state) {
@@ -42,6 +42,21 @@ export default {
           console.log(error);
           throw new Error("Não foi possível buscar os cursos.");
         }
+    },
+
+    async storeNewSupport({commit}, params) {
+      try {
+        const response = await SupportService.storeSupport(params);
+
+        commit("ADD_NEW_SUPPORTS", response.data.data);
+        return response;
+        
+      } catch (error) {
+        console.log(error);
+        throw new Error("Não foi possível buscar os cursos.");
+      }
     }
   },
+
+  
 }
