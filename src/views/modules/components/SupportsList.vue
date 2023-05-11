@@ -6,7 +6,7 @@
                 {{loading ? 'Carregando...' : '' }}
             </span>
             <button class="btn primary" 
-                @click.prevent="modal.showModal = true">
+                @click.prevent="openModal()">
                 <i class="fas fa-plus"></i>
                 Enviar nova dúvida
             </button>
@@ -48,6 +48,8 @@ export default {
             supportReply: ""
         })
 
+        const openModal = () => modal.value = {showModal: true, supportReply: ''}
+
         watch(() => store.state.courses.lessonPlayer, () => {
                 loading.value = true
                 store.dispatch('getSupports', lessons.value.id)
@@ -59,6 +61,7 @@ export default {
             lessons,
             loading,
             supports,
+            openModal,
             modal
         }
     }

@@ -74,8 +74,6 @@ export default {
 
     setup(props, {emit}) {
 
-        props.supportReply
-
         const store = useStore()
         const description = ref('')
         const loading = ref(false)
@@ -87,10 +85,18 @@ export default {
             const params = {
                 lesson: lesson.value.id,
                 description: description.value,
-                status: "P"
+                status: "P",
+                support: props.supportReply
             }
 
-            store.dispatch('storeNewSupport', params)
+            let actionName = 'storeNewSupport'
+
+            if (props.supportReply != '') {
+                actionName = 'storeReplyToSupport'
+            }
+
+
+            store.dispatch(actionName, params)
                 .then(() => {
                     description.value = ''
 
