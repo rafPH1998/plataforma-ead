@@ -30,11 +30,27 @@ export default class SupportService extends BaseService
             throw new Error("Não foi possível buscar os cursos.");
         }
     }
+
     static async storeReplyToSupport(params)
     {
         try {
             const response = await this.request({ auth: true })
                                        .post("/replies", params)
+            return response;
+            
+        } catch (error) {
+            console.log(error);
+            throw new Error("Não foi possível buscar os cursos.");
+        }
+    }
+
+    static async getMySupports(status = '')
+    {
+        try {
+            const response = await this.request({ auth: true })
+                                       .get("/my-supports", {
+                                            params: {status}
+                                       })
             return response;
             
         } catch (error) {

@@ -55,7 +55,7 @@ export default {
           return response;
           
         } catch (error) {
-          console.log(error);
+
           throw new Error("Não foi possível buscar os cursos.");
         }
     },
@@ -68,7 +68,6 @@ export default {
         return response;
         
       } catch (error) {
-        console.log(error);
         throw new Error("Não foi possível buscar os cursos.");
       }
     },
@@ -86,10 +85,22 @@ export default {
         return response;
         
       } catch (error) {
-        console.log(error);
         throw new Error("Não foi possível buscar os cursos.");
       }
-    }
+    },
+
+    async getMySupports({commit}, status) {
+      try {
+        const response = await SupportService.getMySupports(status);
+
+        commit("SET_SUPPORTS", response.data);
+        return response;
+        
+      } catch (error) {
+        throw new Error("Não foi possível buscar os cursos.");
+      }
+    },
+
   },
 
   

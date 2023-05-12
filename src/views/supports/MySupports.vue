@@ -30,14 +30,6 @@
         <div class="right">
             <div class="content">
               <div class="comments">
-                  <div class="header">
-                      <span class="title">Dúvidas</span>
-                      <button class="btn primary">
-                          <i class="fas fa-plus"></i>
-                          Enviar nova dúvida
-                      </button>
-                  </div>
-
                   <supports-global/>
               </div>
             </div>
@@ -47,12 +39,24 @@
 </template>
   
 <script>
+import { onMounted, ref } from 'vue'
+import { useStore } from 'vuex';
 
 import SupportsGlobal from '@/components/SupportsGlobal.vue';
+
 export default {
     name: 'MySupports',
     components: {
-        SupportsGlobal
+      SupportsGlobal
+    },
+
+    setup() {
+
+      const store = useStore()
+      const status = ref('')
+
+      onMounted(() => store.dispatch('getMySupports', status.value))
+
     }
 }
 </script>
