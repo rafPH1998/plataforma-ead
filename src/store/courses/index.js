@@ -39,6 +39,18 @@ export default {
         views: []
       }
     },
+
+    MARK_VIEWED_LESSON (state) {
+      const modules = state.courseSelected.modules
+
+      modules.forEach((module, indexModules) => {
+          module.lessons.forEach((lesson, indexLesson) => {
+            if (lesson.id === state.lessonPlayer.id) {
+              modules[indexModules].lessons[indexLesson].views.push({})
+            }
+          })
+      })
+    }
   },
   actions: {
     async getCourses({ commit }) {
@@ -51,6 +63,19 @@ export default {
           console.log(error);
           throw new Error("Não foi possível buscar os cursos.");
         }
+    },
+
+    async markViewedLesson ({commit}, lessonId) {
+      try {
+        const response = await CourseService.markViewedLesson(lessonId);
+        commit("MARK_VIEWED_LESSON", response);
+        return response;
+        
+      } catch (error) {
+        console.log(error);
+        throw new Error("Não foi possível buscar os cursos.");
+      }
     }
   },
 }
+

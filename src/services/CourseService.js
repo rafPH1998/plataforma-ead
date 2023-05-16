@@ -16,6 +16,20 @@ export default class CourseService extends BaseService
         }
     }
 
+
+    static async markViewedLesson(lessonId)
+    {
+        try {
+            const response = await this.request({ auth: true })
+                                       .post("/lessons/viewed", {
+                                            lesson: lessonId
+                                       });
+            return response;
+        } catch (error) {
+            console.log(error);
+            throw new Error("Não foi possível buscar os cursos.");
+        }
+    }
     
 
 }

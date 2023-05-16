@@ -72,6 +72,7 @@ export default {
         
         const addLeessonInPlayer = (lesson) => {
             store.commit('SET_LESSON_PLAYER', lesson)
+            store.dispatch('markViewedLesson', lesson.id)
         }
 
         const showLesson = computed(() => store.state.courses.lessonPlayer)
