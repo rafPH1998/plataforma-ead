@@ -60,7 +60,7 @@
                                     :class="[
                                         'btn', 
                                         'primary',
-                                        loading ? 'loading' : ''
+                                        loading ? 'disabled' : ''
                                     ]" 
                                     type="submit" 
                                     @click.prevent="login()">
@@ -89,7 +89,7 @@
 <script>
 
 import { useStore } from 'vuex';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import router from '@/router';
 import { notify } from "@kyvg/vue3-notification";
 
@@ -103,6 +103,16 @@ export default {
         const loading = ref(false);
         const passwordType = ref('password');
 
+        const loggedInd = store.state.users.isLogged
+
+        watch (
+            () => {
+                if (loggedInd) {
+                    router.push({name: 'campus.home'})
+                }
+            },
+        )
+        
         const togglePassword = () => {
             passwordType.value = passwordType.value === 'password' ? passwordType.value = 'text' : 'password'
         }

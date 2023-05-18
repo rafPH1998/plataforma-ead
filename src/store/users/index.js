@@ -31,8 +31,7 @@ export default {
 
   actions: {
 
-    auth ({state, dispatch}, params) {
-      state.isLogged
+    auth ({dispatch}, params) {
       return AuthService.auth(params)
                         .then(() => dispatch('getMe'))
     },
@@ -44,9 +43,17 @@ export default {
                   })
     },
 
-    forgetPassword ({state}, email) {
-      state.isLogged
+    forgetPassword (_, email) {
       return AuthService.forgetPassword(email)
+    },
+    
+    logout ({commit}) {
+      return AuthService.logout()
+                        .then((response) => {
+                          if (response == 'OK') {
+                            commit('LOGOUT')
+                          }
+                        })
     }
 
   },

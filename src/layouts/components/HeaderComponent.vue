@@ -19,7 +19,7 @@
                         <router-link :to="{name: 'campus.my.supports'}">Minhas dúvidas</router-link>
                     </li>
                     <li>
-                        <router-link :to="{name: 'campus.home'}">Sair</router-link>
+                        <router-link :to="{name: 'campus.home'}" @click.prevent="logout()">Sair</router-link>
                     </li>
                 </ul>
             </transition>
@@ -28,19 +28,30 @@
 </template> 
 
 <script>
+import router from '@/router'
 import { ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
     name: 'HeaderComponent',
     setup() {
         const showMenu = ref(false)
+        const store = useStore()
 
         const toggleMenu = () => {
             showMenu.value = !showMenu.value
         }
 
+        const logout = () => {
+            store.dispatch('logout')
+                .then(() => {
+                    router.push({name: 'auth'})
+                })
+        }
+
         return {
             toggleMenu,
+            logout,
             showMenu
         }
     }
