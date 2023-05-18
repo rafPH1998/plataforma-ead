@@ -31,12 +31,20 @@ export default {
 
   actions: {
 
-    auth({state}, params) {
+    auth ({state, dispatch}, params) {
       state.isLogged
       return AuthService.auth(params)
+                        .then(() => dispatch('getMe'))
     },
 
-    forgetPassword({state}, email) {
+    getMe ({commit}) {
+      AuthService.getMe()
+                  .then((response) => {
+                    commit('SET_USER', response.data)
+                  })
+    },
+
+    forgetPassword ({state}, email) {
       state.isLogged
       return AuthService.forgetPassword(email)
     }

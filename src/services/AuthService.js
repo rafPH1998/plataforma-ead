@@ -37,6 +37,26 @@ export default class AuthService extends BaseService
                 .catch((error) => reject(error))
         }) 
     }
+
+
+    static async getMe()
+    {
+        const token = await localStorage.getItem(TOKEN_NAME)
+
+        if (!token) {
+            return Promise.reject('Token not Found')
+        }
+
+        return new Promise((resolve, reject) => {
+            this.request({auth: true})
+                .get('/me')
+                .then((response) =>  resolve(response))
+                .catch((error) => {
+                    localStorage.removeItem(TOKEN_NAME)
+                    reject(error.response)
+                })
+        }) 
+    }
     
 
 }
