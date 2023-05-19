@@ -89,9 +89,9 @@ export default {
       }
     },
 
-    async getMySupports({commit}, status) {
+    async getMySupports({commit}, params) {
       try {
-        const response = await SupportService.getMySupports(status);
+        const response = await SupportService.getMySupports(params);
 
         commit("SET_SUPPORTS", response.data);
         return response;

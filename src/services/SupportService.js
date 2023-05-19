@@ -44,13 +44,11 @@ export default class SupportService extends BaseService
         }
     }
 
-    static async getMySupports(status = '')
+    static async getMySupports(params)
     {
         try {
             const response = await this.request({ auth: true })
-                                       .get("/my-supports", {
-                                            params: {status}
-                                       })
+                                       .get("/my-supports", {params})
             return response;
             
         } catch (error) {

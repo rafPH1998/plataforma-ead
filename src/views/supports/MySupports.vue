@@ -34,21 +34,29 @@
                   <span v-else><supports-global/></span>
               </div>
             </div>
+
+            <pagination-component
+                :pagination="mySupports"
+                @changePage="changePage">
+            </pagination-component>
+
         </div>
       </div>
   </div>
 </template>
   
 <script>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useStore } from 'vuex';
 
 import SupportsGlobal from '@/components/SupportsGlobal.vue';
+import PaginationComponent from '@/layouts/components/PaginationComponent.vue'
 
 export default {
     name: 'MySupports',
     components: {
-      SupportsGlobal
+      SupportsGlobal,
+      PaginationComponent
     },
 
     setup() {
@@ -59,19 +67,29 @@ export default {
 
       onMounted(() => store.dispatch('getMySupports'))
 
+      const mySupports = computed(() => store.state.supports.supports)
+
       const getMySupportForStatus = (newStatus) => {
         loading.value = true
 
         status.value = newStatus
-        store.dispatch('getMySupports', status.value)
+        store.dispatch('getMySupports', {status: status.value})
             .finally(() => {
               loading.value = false
             })
+      }
+      const changePage = (page) => {
+        store.dispatch('getMySupports', {
+          status: status.value,
+          page
+        })
       }
 
       return {
         status,
         loading,
+        mySupports,
+        changePage,
         getMySupportForStatus
       }
     }

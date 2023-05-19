@@ -1,6 +1,6 @@
 <template>
     <div class="pageTitle">
-        <span class="title">{{ getCourse.name }}</span>
+        <span class="title">{{ course.name }}</span>
         <span class="dots">
             <span></span>
             <span></span>
@@ -34,6 +34,7 @@ import PlayerVideo from '@/views/modules/components/PlayerVideo.vue';
 import SupportsList from '@/views/modules/components/SupportsList.vue';
 import { useStore } from 'vuex';
 import { computed } from 'vue'
+import router from '@/router';
 
 export default {
     name: 'ModulesAndLessons',
@@ -45,10 +46,14 @@ export default {
 
     setup() {
         const store = useStore();
-        const getCourse = computed(() => store.state.courses.courseSelected)
+        const course = computed(() => store.state.courses.courseSelected)
+
+        if (course.value.id === '') {
+            router.push({name: 'campus.home'})
+        }
 
         return {
-            getCourse
+            course
         }
     }
 }
