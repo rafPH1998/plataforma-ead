@@ -1,7 +1,8 @@
 <template>
   <div class="content">
       <ul class="listCourses">
-        <card-course 
+        <card-course
+          class="animate__animated animate__fadeIn"
           style="margin-top: 15px;"
           v-for="courses in allCourses.data" 
           :key="courses.id"

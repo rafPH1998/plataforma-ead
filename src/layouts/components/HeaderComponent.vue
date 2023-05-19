@@ -9,16 +9,16 @@
             </nav>
         </header>
 
-        <div v-show="showMenu">
+        <div class="animate__animated animate__fadeIn" v-show="showMenu">
             <transition name="fade">
                 <ul id="mainMenu">
-                    <li>
+                    <li class="animate__animated animate__headShake">
                         <router-link :to="{name: 'campus.home'}">Início</router-link>
                     </li>
-                    <li>
+                    <li class="animate__animated animate__headShake">
                         <router-link :to="{name: 'campus.my.supports'}">Minhas dúvidas</router-link>
                     </li>
-                    <li>
+                    <li class="animate__animated animate__headShake">
                         <router-link :to="{name: 'campus.home'}" @click.prevent="logout()">Sair</router-link>
                     </li>
                 </ul>
